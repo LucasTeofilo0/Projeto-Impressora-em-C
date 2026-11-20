@@ -206,21 +206,68 @@ void imprimirQRCode(void) {
 }
 
 void imprimirCodigoBarras(void) {
-    
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
+
+    /* tipo 8 = CODE 128 (o texto comeca com {A), altura 100, largura 2, HRI 3 = numero acima e abaixo */
+    int retorno = ImpressaoCodigoBarras(8, "{A012345678912", 100, 2, 3);
+    if (retorno == 0) {
+        printf("Codigo de barras impresso!\n");
+        Corte(5);
+    } else {
+        printf("Erro ao imprimir codigo de barras. Codigo: %d\n", retorno);
+    }
 }
 
 void imprimirXMLSAT(void) {
-    
-        /* le o arquivo XML (na raiz do projeto) para a memoria */
-        //char *dadosXML = lerArquivo("XMLSAT.xml");
-        
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
+
+    // le o arquivo XML (na raiz do projeto) para a memoria
+    char *dadosXML = lerArquivo("XMLSAT.xml");
+    if (dadosXML == NULL) {          // arquivo nao encontrado
+        printf("Nao foi possivel ler o XMLSAT.xml\n");
+        return;
+    }
+
+    int retorno = ImprimeXMLSAT(dadosXML, 0);
+    free(dadosXML); 
+
+    if (retorno == 0) {
+        printf("XML SAT impresso!\n");
+        Corte(5);
+    } else {
+        printf("Erro ao imprimir XML SAT. Codigo: %d\n", retorno);
+    }
 }
 
+
 void imprimirXMLCancelamentoSAT(void) {
-    	
-    	/* le o arquivo XML (na raiz do projeto) para a memoria */
-        //char *dadosXML = lerArquivo("CANC_SAT.xml");
-        
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
+
+    // Mesma ideia do imprimirXMLSAT
+    char *dadosXML = lerArquivo("CANC_SAT.xml");
+    if (dadosXML == NULL) {
+        printf("Nao foi possivel ler o CANC_SAT.xml\n");
+        return;
+    }
+
+    int retorno = ImprimeXMLCancelamentoSAT(dadosXML, ASS_QRCODE, 0);
+    free(dadosXML);                  /* devolve a memoria */
+
+    if (retorno == 0) {
+        printf("XML de cancelamento SAT impresso!\n");
+        Corte(5);
+    } else {
+        printf("Erro ao imprimir XML de cancelamento SAT. Codigo: %d\n", retorno);
+    }
 }
 
 void abrirGavetaElgin(void) {
@@ -240,7 +287,18 @@ void exibirMenu(void) {
     printf("**************** MENU IMPRESSORA ****************\n");
     printf("*************************************************\n\n");
 
-    printf("1  - Configurar Conexao\n");    
+    printf("1  - Configurar Conexao\n");
+    printf("2  - Abrir Conexao\n");
+    printf("3  - Fechar Conexao\n");
+    printf("4  - Imprimir Texto\n");
+    printf("5  - Imprimir QR Code\n");
+    printf("6  - Imprimir Codigo de Barras\n");
+    printf("7  - Imprimir XML SAT\n");
+    printf("8  - Imprimir XML Cancelamento SAT\n");
+    printf("9  - Abrir Gaveta Elgin\n");
+    printf("10 - Abrir Gaveta\n");
+    printf("11 - Sinal Sonoro\n");
+    printf("0  - Sair\n");  
     printf("--------------------------------------\n");
 }
 
@@ -257,7 +315,46 @@ int main(void) {
         exibirMenu();
         opcao = lerInteiro("\nDigite a opcao desejada: ");
 
-        //...
+        switch(opcao){
+        	case 0:
+        		break;
+        	case 1:
+        		configurarConexao();
+        		break;
+        	case 2:
+        		abrirConexao();
+        		break;
+        	case 3:
+        		fecharConexao();
+        		break;
+        	case 4:
+        		imprimirTexto();
+        		break;
+        	case 5:
+        		imprimirQRCode();
+        		break;
+        	case 6:
+        		imprimirCodigoBarras();
+        		break;
+        	case 7:
+        		imprimirXMLSAT();
+        		break;
+        	case 8:
+        		imprimirXMLCancelamentoSAT();
+        		break;
+        	case 9:
+        		abrirGavetaElgin();
+        		break;
+        	case 10:
+        		abrirGaveta();
+        		break;
+        	case 11:
+        		emitirSinalSonoro();
+        		break;
+        	default:
+        		printf("\Opcao invalida\n");
+        			
+		}
     }
 
     FreeLibrary(dll);
