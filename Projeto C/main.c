@@ -194,15 +194,59 @@ void abrirConexao(void) {
 }
 
 void fecharConexao(void) {
-    
+    if (!conexaoAberta) {
+        printf("A conexao ja esta fechada.\n");
+        return;
+    }
+
+    int retorno = FechaConexaoImpressora();
+    if (retorno == 0) {
+        conexaoAberta = 0;
+        printf("Conexao fechada com sucesso.\n");
+    } else {
+        printf("Erro ao fechar conexao. Codigo: %d\n", retorno);
+    }
 }
 
 void imprimirTexto(void) {
-   
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
+
+    char texto[200];
+    capturarEntrada("Texto a imprimir: ", texto, sizeof(texto));
+    int copias = lerInteiro("Quantas copias? ");
+    
+    for (int i = 1; i <= copias; i++) {
+        int retorno = ImpressaoTexto(texto, 1, 4, 0);
+        if (retorno >= 0) {
+            printf("Copia %d impressa!\n", i);
+        } else {
+            printf("Erro ao imprimir. Codigo: %d\n", retorno);
+        }
+    }
+
+    Corte(5);
 }
 
 void imprimirQRCode(void) {
-    
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
+
+    char dados[200];
+    capturarEntrada("Conteudo do QR Code: ", dados, sizeof(dados));
+
+    int retorno = ImpressaoQRCode(dados, 6, 4);
+    if (retorno == 0) {
+        printf("QR Code impresso!\n");
+    } else {
+        printf("Erro ao imprimir QR Code. Codigo: %d\n", retorno);
+    }
+
+    Corte(5);
 }
 
 void imprimirCodigoBarras(void) {
