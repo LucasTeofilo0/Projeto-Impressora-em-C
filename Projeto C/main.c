@@ -346,6 +346,26 @@ void exibirMenu(void) {
     printf("--------------------------------------\n");
 }
 
+int fazerLogin(){ // usuário tem 3 tentativas
+	char usuario[50], senha[50];
+
+    printf("\n************* LOGIN *************\n");
+    for (int tentativa = 1; tentativa <= 3; tentativa++) {
+        capturarEntrada("Usuario: ", usuario, sizeof(usuario));
+        capturarEntrada("Senha: ", senha, sizeof(senha));
+
+        if (strcmp(usuario, "admin") == 0 && strcmp(senha, "1234") == 0) {
+            printf("\nLogin realizado com sucesso!\n");
+            return 1;
+        }
+
+        printf("Usuario ou senha incorretos. Tentativas restantes: %d\n", 3 - tentativa);
+    }
+
+    printf("Numero maximo de tentativas atingido.\n");
+    return 0;
+}
+
 /* ===================== Programa principal ===================== */
 
 int main(void) {
@@ -353,6 +373,12 @@ int main(void) {
         printf("Programa encerrado.\n");
         return 1;
     }
+    
+    if(!fazerLogin()){
+    	printf("Acesso negado.\n");
+    	FreeLibrary(dll);
+    	return 1;
+	}
 
     int opcao = -1;
     while (opcao != 0) {
@@ -361,6 +387,8 @@ int main(void) {
 
         switch(opcao){
         	case 0:
+        		if(conexaoAberta)
+					fecharConexao();   
         		break;
         	case 1:
         		configurarConexao();
@@ -396,7 +424,7 @@ int main(void) {
         		emitirSinalSonoro();
         		break;
         	default:
-        		printf("\Opcao invalida\n");
+        		printf("Opcao invalida\n");
         			
 		}
     }
