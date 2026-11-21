@@ -68,7 +68,7 @@ Este projeto foi desenvolvido por alunos com o objetivo de criar uma aplicação
 9. Abrir gaveta (Elgin)
 10. Abrir gaveta
 11. Sinal sonoro
-12. -> 0.  Sair
+12. Default -> Opção Inválida
    
 ## **Testes**
  
