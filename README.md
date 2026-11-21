@@ -1,4 +1,4 @@
-# **Controle de Impressora Elgin i9 em C**
+# **Controle de Impressora Térmica Elgin i9 em C**
 ## **Sobre o projeto**
 Este projeto foi desenvolvido por alunos com o objetivo de criar uma aplicação em **linguagem C** capaz de se comunicar com a impressora térmica **Elgin i9**, utilizando a **DLL oficial da Elgin**, conexão **USB** e testes de impressão feitos direto na impressora.  O trabalho faz parte da disciplina de **Construção de algoritmos**.
 
