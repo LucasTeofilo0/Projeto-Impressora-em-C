@@ -313,17 +313,53 @@ void imprimirXMLCancelamentoSAT(void) {
         printf("Erro ao imprimir XML de cancelamento SAT. Codigo: %d\n", retorno);
     }
 }
-
+/* Abre a gaveta usando o comando AbreGavetaElgin.
+   Parametros: pino 1, tempo inicial 50 e tempo final 50 (parametros saido do exemplo do manual da Elgin). */
 void abrirGavetaElgin(void) {
-    
-}
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
 
+    int retorno = AbreGavetaElgin(1, 50, 50);
+
+    if (retorno == 0) {
+        printf("Gaveta Elgin aberta com sucesso!\n");
+    } else {
+        printf("Erro ao abrir gaveta Elgin. Codigo: %d\n", retorno);
+    }
+}
+/* Abre a gaveta usando o outro comando, AbreGaveta.
+   Parametros: pino 1, tempo inicial 5 e tempo final 10 (parametros saido do exemplo do manual da Elgin). */
 void abrirGaveta(void) {
-    
-}
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
 
+    int retorno = AbreGaveta(1, 5, 10);
+
+    if (retorno == 0) {
+        printf("Gaveta aberta com sucesso!\n");
+    } else {
+        printf("Erro ao abrir gaveta. Codigo: %d\n", retorno);
+    }
+}
+/* Faz a impressora apitar.
+   Parametros: quantidade de apitos (4), tempo inicial 50 e tempo final 5.*/
 void emitirSinalSonoro(void) {
-    
+    if (!conexaoAberta) {
+        printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
+        return;
+    }
+
+    int retorno = SinalSonoro(4, 50, 5);
+
+    if (retorno == 0) {
+        printf("Sinal sonoro emitido com sucesso!\n");
+    } else {
+        printf("Erro ao emitir sinal sonoro. Codigo: %d\n", retorno);
+    }
 }
 
 void exibirMenu(void) {
