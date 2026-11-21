@@ -73,6 +73,8 @@ Este projeto foi desenvolvido por alunos com o objetivo de criar uma aplicação
 ## **Testes**
  
 - Login com usuário e senha (3 tentativas)
+  Usuário Padrão: admin
+  Senha Padrão: 1234
 - Abertura e fechamento da conexão com a impressora
 - Impressão de texto, QR Code e código de barras
 - Impressão dos XMLs SAT, gaveta e sinal sonoro
