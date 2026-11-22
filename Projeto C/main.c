@@ -346,17 +346,22 @@ void abrirGaveta(void) {
     }
 }
 /* Faz a impressora apitar.
-   Parametros: quantidade de apitos (4), tempo inicial 50 e tempo final 5.*/
+   Parametros: o caba escolhe.*/
 void emitirSinalSonoro(void) {
     if (!conexaoAberta) {
         printf("Conexao fechada. Abra a conexao antes (opcao 2).\n");
         return;
     }
 
-    int retorno = SinalSonoro(4, 50, 5);
+    int quantidade = lerInteiro("Quantos apitos (1 a 63)? "); // pro caba não bota som infinito
+    if (quantidade < 1 || quantidade > 63) {
+        printf("Quantidade invalida. Use um valor de 1 a 63.\n");
+        return;
+    }
 
+    int retorno = SinalSonoro(quantidade, 50, 5);
     if (retorno == 0) {
-        printf("Sinal sonoro emitido com sucesso!\n");
+        printf("Sinal sonoro emitido!\n");
     } else {
         printf("Erro ao emitir sinal sonoro. Codigo: %d\n", retorno);
     }
